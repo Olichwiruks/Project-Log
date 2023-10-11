@@ -1,0 +1,65 @@
+import unittest
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from time import sleep
+
+
+# Dane testowe
+firstname = "Mateusz"
+surname = "Kowalski"
+email = "kdsjkhf@wkjd.pl"
+correct_password = "Qwerty123@"
+incorrect_password = "Qwerty123"
+adress = "Gliniana 22/12"
+post = "55-200"
+city = "Lublin"
+phone_number = '883 666 222'
+
+class RegistrationTests(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.wait_10_seconds = WebDriverWait(self.driver, 10)
+        self.driver.get("https://sklep.aldonaoleksy.com/")
+        register_btn = self.driver.find_element(By.PARTIAL_LINK_TEXT, 'ZALOGUJ')
+        sleep(2)
+        register_btn.click()
+        sleep(5)
+
+    def testWrongPassword(self):
+        email_input = self.driver.find_element(By.NAME, 'text-4j2gDR')
+        email_input.send_keys(email)
+        password_input = self.driver.find_element(By.NAME, 'text-Uhm6pa')
+        password_input.send_keys(correct_password)
+        repeat_password_input = self.driver.find_element(By.XPATH,
+                                                         "//input[@data-parsley-confirm-password= 'text-Uhm6pa']")
+        repeat_password_input.send_keys(incorrect_password)
+        firstname_input = self.driver.find_element(By.NAME, 'text-DmfIAx')
+        firstname_input.send_keys(firstname)
+        surname_input = self.driver.find_element(By.NAME, 'text-CYOUID')
+        surname_input.send_keys(surname)
+        adress_input = self.driver.find_element(By.NAME, 'field-Oa3mefyFmizrNYk')
+        adress_input.send_keys(adress)
+        post_input = self.driver.find_element(By.NAME, 'field-KxPw1KJSjXiaAtD')
+        post_input.send_keys(post)
+        city_input = self.driver.find_element(By.NAME, 'field-r67q5SX7JereV5H')
+        city_input.send_keys(city)
+        phone_number_input = self.driver.find_element(By.NAME, 'field-tpmywTg3PPAU7xu')
+        phone_number_input.location_once_scrolled_into_view
+        phone_number_input.send_keys(phone_number)
+        accept_reg_input = self.driver.find_element(By.CSS_SELECTOR,
+                                                    "[for='field-KBbrxt684D7IC81-0']")
+        accept_reg_input.location_once_scrolled_into_view
+        sleep(4)
+        accept_reg_input.click()
+        b_register_click = self.driver.find_element(By.XPATH, '//button[@class= "btn-oleksy-light register-btn"]')
+        b_register_click.location_once_scrolled_into_view
+        sleep(4)
+        b_register_click.click()
+        sleep(4)
